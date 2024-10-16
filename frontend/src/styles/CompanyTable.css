@@ -1,0 +1,52 @@
+/* CompanyTable.css */
+.company-table {
+  margin: 20px auto;
+  max-width: 800px;
+  border-collapse: collapse;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.company-table table {
+  width: 100%;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+.company-table th, .company-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.company-table input {
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.blur-background {
+  filter: blur(2px);  /* Loading hone par background ko blur karne ke liye */
+}

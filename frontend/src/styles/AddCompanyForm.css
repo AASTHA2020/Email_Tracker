@@ -1,0 +1,53 @@
+.add-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px 20px;
+  background-color: #28a745; /* Green background */
+  color: white; /* White text */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer on hover */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.add-btn:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.popup {
+  display: flex; /* Flexbox for centering */
+  flex-direction: column; /* Stack children vertically */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white; /* White background */
+  padding: 20px; /* Padding around the form */
+  border: 1px solid #ccc; /* Light grey border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+  z-index: 1000; /* Ensure it’s above other content */
+}
+
+form {
+  display: flex; /* Flexbox for the form */
+  flex-direction: column; /* Stack labels and inputs */
+}
+
+form label {
+  margin: 10px 0 5px; /* Margin for labels */
+}
+
+form input {
+  padding: 10px; /* Padding for inputs */
+  margin-bottom: 10px; /* Margin between inputs */
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 4px; /* Slightly rounded corners */
+}
+
+.success-message {
+  margin-top: 10px; /* Space above success message */
+  color: green; /* Green text for success message */
+  font-weight: bold; /* Bold text */
+}
