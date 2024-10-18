@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   .catch(err => console.log('MongoDB connection error:', err));
 
 
-app.use('/api/jobs', require('./routes/jobRoutes'));
+app.use('/api/jobs', require('./routes/JobRoutes'));
 
 
 const PORT = process.env.PORT || 5000;

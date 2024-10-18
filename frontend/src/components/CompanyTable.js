@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../styles/CompanyTable.css'; 
 
 const CompanyTable = () => {
   const [companies, setCompanies] = useState([]);  
   const [loading, setLoading] = useState(true);    
   const [error, setError] = useState(null);       
 
-  // Fetch companies from the backend when the component loads
+  
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -24,9 +25,10 @@ const CompanyTable = () => {
   }, []);
 
   return (
-    <div className="company-table">
+    <div className={`company-table ${loading ? 'blur-background' : ''}`}>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
+
       <table>
         <thead>
           <tr>
