@@ -1,27 +1,30 @@
-// backend/routes/jobRoutes.js
+
 const express = require('express');
-const Job = require('../models/Job'); // Import Job model
+const Job = require('../models/Job');
 const router = express.Router();
 
-// GET all jobs
-router.get('/', async (req, res) => {
-  try {
-    const jobs = await Job.find(); // Fetch all jobs from the database
-    res.json(jobs); // Send jobs as JSON response
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
 
-// POST a new job
 router.post('/', async (req, res) => {
-  const job = new Job(req.body); // Create a new job instance
+  const { name, email, contact, address } = req.body;
+
+  
+  if (!name || !email || !contact || !address) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
 
   try {
-    const savedJob = await job.save(); // Save the job to the database
-    res.status(201).json(savedJob); // Send back the saved job
+    const newJob = new Job({
+      name,
+      email,
+      contact,
+      address
+    });
+
+    const savedJob = await newJob.save(); 
+    res.status(201).json(savedJob); 
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Error details:', error);  
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 

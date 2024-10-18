@@ -1,55 +1,39 @@
 import React, { useState } from 'react';
-import '../styles/AddCompanyForm.css';
+import axios from 'axios';
 
-const AddCompanyForm = ({ addCompany, setLoading, closeForm }) => { // Add closeForm prop
-  const [company, setCompany] = useState({
+const AddCompanyForm = () => {
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     contact: '',
-    address: '',
+    address: ''
   });
 
   const handleChange = (e) => {
-    setCompany({
-      ...company,
-      [e.target.name]: e.target.value,
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    // Simulating a loader for 2 seconds
-    setTimeout(() => {
-      addCompany(company); 
-      setCompany({ name: '', email: '', contact: '', address: '' });
-      setLoading(false);
-      closeForm(); // Close the form after submission
-    }, 2000); 
+    try {
+      const response = await axios.post('http://localhost:5000/api/jobs', formData);
+      console.log('Company added successfully:', response.data);
+    } catch (error) {
+      console.error('There was an error!', error);
+    }
   };
 
   return (
-    <div className="add-company-form">
-      <div className="popup">
-        <form onSubmit={handleSubmit}>
-          <label>Company Name</label>
-          <input type="text" name="name" value={company.name} onChange={handleChange} required />
-
-          <label>Email</label>
-          <input type="email" name="email" value={company.email} onChange={handleChange} required />
-
-          <label>Contact</label>
-          <input type="text" name="contact" value={company.contact} onChange={handleChange} required />
-
-          <label>Address</label>
-          <input type="text" name="address" value={company.address} onChange={handleChange} required />
-
-          <button type="submit">Submit</button>
-          <button type="button" onClick={closeForm}>Close</button> {/* Close button */}
-        </form>
-      </div>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Company Name" required />
+      <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
+      <input type="text" name="contact" value={formData.contact} onChange={handleChange} placeholder="Contact" required />
+      <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" required />
+      <button type="submit">Add Company</button>
+    </form>
   );
 };
 

@@ -1,23 +1,27 @@
-// backend/server.js
 const express = require('express');
+const cors = require('cors'); 
 const mongoose = require('mongoose');
-const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(cors());
 
-// MongoDB Connection
+const corsOptions = {
+  origin: 'http://localhost:3000', 
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions)); // Use the CORS middleware with the defined options
+app.use(express.json()); 
+
+// MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.log('MongoDB connection error:', err));
 
-// Routes
-app.use('/api/jobs', require('./routes/jobRoutes')); // Use job routes
 
-// Server Listening
+app.use('/api/jobs', require('./routes/jobRoutes'));
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
