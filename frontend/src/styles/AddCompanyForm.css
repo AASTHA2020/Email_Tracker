@@ -1,53 +1,76 @@
-.add-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  padding: 10px 20px;
-  background-color: #28a745; /* Green background */
-  color: white; /* White text */
-  border: none; /* No border */
-  cursor: pointer; /* Pointer on hover */
-  border-radius: 5px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
-  transition: background-color 0.3s ease; /* Smooth transition */
+/* Add Company button */
+.add-company-btn {
+  position: absolute;
+  top: 120px; /* 120px from top */
+  right: 30px; /* Aligned to the right */
+  background-color: #0073b1;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.add-btn:hover {
-  background-color: #218838; /* Darker green on hover */
+.add-company-btn:hover {
+  background-color: #005b93;
 }
 
-.popup {
-  display: flex; /* Flexbox for centering */
-  flex-direction: column; /* Stack children vertically */
+/* Loader styling */
+.loader {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white; /* White background */
-  padding: 20px; /* Padding around the form */
-  border: 1px solid #ccc; /* Light grey border */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
-  z-index: 1000; /* Ensure it’s above other content */
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0073b1;
 }
 
-form {
-  display: flex; /* Flexbox for the form */
-  flex-direction: column; /* Stack labels and inputs */
+/* Add Company form */
+.add-company-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  width: 400px;
+  color: #333;
 }
 
-form label {
-  margin: 10px 0 5px; /* Margin for labels */
+.add-company-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-form input {
-  padding: 10px; /* Padding for inputs */
-  margin-bottom: 10px; /* Margin between inputs */
-  border: 1px solid #ccc; /* Light grey border */
-  border-radius: 4px; /* Slightly rounded corners */
+.submit-btn, .cancel-btn {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
 }
 
-.success-message {
-  margin-top: 10px; /* Space above success message */
-  color: green; /* Green text for success message */
-  font-weight: bold; /* Bold text */
+.submit-btn {
+  background-color: #0073b1;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Blur effect on the background */
+body.blur {
+  filter: blur(5px);
 }

@@ -1,27 +1,49 @@
-const express = require('express');
-const cors = require('cors'); 
-const mongoose = require('mongoose');
-require('dotenv').config();
+import express from 'express'; 
+import cors from 'cors'; 
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url'; // Import to fix __dirname issue
+import { dirname } from 'path';      // Import to fix __dirname issue
+
+dotenv.config(); // Load environment variables
 
 const app = express();
 
+// Middleware
+app.use(express.json());
+app.use(cors({
+  origin: '*', // Allow all origins (for development purposes)
+}));
+app.use(express.urlencoded({ extended: true }));
 
-const corsOptions = {
-  origin: 'http://localhost:3000', 
-  optionsSuccessStatus: 200
+// MongoDB Connection
+const connectToMongoDB = async () => {
+  const username = process.env.MONGO_USERNAME; // Get MongoDB username from .env
+  const password = encodeURIComponent(process.env.MONGO_PASSWORD); // Get MongoDB password from .env
+
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${username}:${password}@cluster0.3j0ywmp.mongodb.net/myDatabase?retryWrites=true&w=majority`
+    );
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('MongoDB connection error', error);
+  }
 };
 
-app.use(cors(corsOptions)); // Use the CORS middleware with the defined options
-app.use(express.json()); 
+connectToMongoDB();
 
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.log('MongoDB connection error:', err));
+// Fix for __dirname in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+console.log(__dirname); // This will log the correct directory now
 
+// Importing routes
+import jobRoutes from './routes/JobRoutes.js';
 
-app.use('/api/jobs', require('./routes/JobRoutes'));
+// Use routes
+app.use('/api/jobs', jobRoutes); 
 
-
-const PORT = process.env.PORT || 5000;
+// Port setup
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

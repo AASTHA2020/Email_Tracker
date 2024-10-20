@@ -1,29 +1,48 @@
-/* CompanyTable.css */
-.company-table {
-  margin: 20px auto;
-  max-width: 800px;
-  border-collapse: collapse;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-}
-
-.company-table table {
-  width: 100%;
-  border-spacing: 0;
-  border: 1px solid #ddd;
-}
-
-.company-table th, .company-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.company-table input {
+/* Table styling (LinkedIn, Naukri style) */
+.company-table-container {
+  margin: 0 auto;
   width: 90%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-top: 30px;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: #f5f5f5;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.company-table-container th {
+  background-color: #0073b1;
+  color: white;
+  padding: 15px;
+  font-size: 1rem;
+}
+
+.company-table-container td {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+
+.company-table-container tr:hover {
+  background-color: #eaeaea;
+}
+
+.icon-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 5px 8px;
+  font-size: 1rem;
+}
+
+.edit-btn {
+  color: #0073b1;
+}
+
+.delete-btn {
+  color: #e55039;
 }
 
 .pagination {
@@ -32,21 +51,20 @@
   margin-top: 20px;
 }
 
-.pagination button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+.page-btn {
+  padding: 8px 15px;
   margin: 0 5px;
-  border-radius: 5px;
+  border: none;
+  background-color: #0073b1;
+  color: white;
   cursor: pointer;
+  border-radius: 5px;
 }
 
-.pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.page-btn.active {
+  background-color: #005b93;
 }
 
-.blur-background {
-  filter: blur(2px);  /* Loading hone par background ko blur karne ke liye */
+.page-btn:hover {
+  background-color: #005b93;
 }

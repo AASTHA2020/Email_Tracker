@@ -1,17 +1,16 @@
 import React from 'react';
-import '../styles/Header.css';
+import '../styles/Header.css'; // Importing styles for header
 
 const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        {/* logo */}
-        <img src="/logo.png" alt="Logo" />
+        <img src="/logo.png" alt="Logo" className="logo-img" />
       </div>
       <nav>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Contact Me</a></li>
+        <ul className="nav-list">
+          <li><a href="#" className="nav-link">Home</a></li>
+          <li><a href="#" className="nav-link">Contact Me</a></li>
         </ul>
       </nav>
       <button className="signout-btn">Sign Out</button>
