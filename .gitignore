@@ -21,3 +21,27 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+
+
+# Project Workflow Overview:
+# Backend (Express + MongoDB):
+
+# The server is created using Express and listens on a port (like 3000).
+# You define routes for the API:
+# /api/jobs (GET): To get all job entries.
+# /api/jobs (POST): To create a new job entry.
+# /api/jobs/:id (PUT): To update a job based on its ID.
+# /api/jobs/:id (DELETE): To delete a job based on its ID.
+# MongoDB is connected using Mongoose, and job entries are saved in the database.
+# Frontend (React):
+
+# The user can add new jobs using a form, which sends data to the backend.
+# Job data is displayed in a table, and users can edit or delete entries.
+# The frontend interacts with the backend using Axios to make API calls.
+# Communication Flow:
+
+# The frontend sends requests to the backend API (for example, to fetch or update job data).
+# The backend processes the request, interacts with MongoDB, and sends back a response (usually JSON data).
+# The frontend then updates the UI based on the response (like displaying new jobs or removing deleted ones).

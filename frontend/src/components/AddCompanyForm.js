@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import '../styles/AddCompanyForm.css';
 
 const AddCompanyForm = ({ onCompanyAdded }) => {
@@ -12,6 +12,7 @@ const AddCompanyForm = ({ onCompanyAdded }) => {
     address: ''
   });
   const [showForm, setShowForm] = useState(false);
+  const [showMailDialog, setShowMailDialog] = useState(false); // For email dialog
   const [showLoader, setShowLoader] = useState(false);
 
   const handleChange = (e) => {
@@ -41,11 +42,24 @@ const AddCompanyForm = ({ onCompanyAdded }) => {
     }
   };
 
+  const handleMailClick = () => {
+    setShowMailDialog(true); // Show email dialog
+  };
+
+  const handleMailClose = () => {
+    setShowMailDialog(false); // Close email dialog
+  };
+
   return (
     <div>
       {/* Add Company Button with Icon */}
       <button className="add-company-btn" onClick={() => setShowForm(!showForm)}>
         <FontAwesomeIcon icon={faPlus} /> {showForm ? 'Close Form' : 'Add Company'}
+      </button>
+
+      {/* Button to trigger email dialog */}
+      <button className="send-mail-btn" onClick={handleMailClick}>
+        <FontAwesomeIcon icon={faEnvelope} /> Apply for MERN Developer
       </button>
 
       {/* Show loader after form submission */}
@@ -90,6 +104,17 @@ const AddCompanyForm = ({ onCompanyAdded }) => {
           <button type="submit" className="submit-btn">Add Company</button>
           <button onClick={() => setShowForm(false)} className="cancel-btn">Cancel</button>
         </form>
+      )}
+
+      {/* Mail Dialog Box */}
+      {showMailDialog && (
+        <div className="mail-dialog">
+          <h2>Apply for MERN Stack Developer</h2>
+          <p><strong>Subject:</strong> Application for MERN Stack Developer Role</p>
+          <textarea defaultValue="Hi, I am interested in the MERN Stack Developer position. I have extensive experience in MongoDB, Express, React, and Node.js. Looking forward to your response." />
+          <button className="submit-btn" onClick={handleMailClose}>Send Confirmation</button>
+          <button className="cancel-btn" onClick={handleMailClose}>Cancel</button>
+        </div>
       )}
     </div>
   );

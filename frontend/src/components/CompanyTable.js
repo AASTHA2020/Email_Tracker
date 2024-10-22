@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CompanyTable.css';
 
-const CompanyTable = () => {
+const CompanyTable = ({ refreshTable }) => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingCompany, setEditingCompany] = useState(null); // For editing company
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
   const [companiesPerPage] = useState(10); // Number of companies per page
+  const [selectedCompanies, setSelectedCompanies] = useState([]); // Store selected company IDs
 
   // Fetch companies from the API
   useEffect(() => {
@@ -27,19 +28,34 @@ const CompanyTable = () => {
     };
 
     fetchCompanies();
-  }, []);
+  }, [refreshTable]);
+
+  // Handle checkbox selection
+  const handleCheckboxChange = (companyId) => {
+    setSelectedCompanies((prev) => {
+      if (prev.includes(companyId)) {
+        return prev.filter((id) => id !== companyId);
+      } else {
+        return [...prev, companyId];
+      }
+    });
+  };
+
+  // Log the selected companies array
+  useEffect(() => {
+    console.log('Selected Companies:', selectedCompanies);
+  }, [selectedCompanies]);
 
   // Handle Delete functionality
-const handleDelete = async (id) => {
-  try {
-    await axios.delete(`https://aastha-backend.onrender.com/api/jobs/${id}`);
-    // Remove deleted company from state
-    setCompanies(companies.filter((company) => company._id !== id));
-  } catch (error) {
-    console.error('Error deleting company:', error);
-  }
-};
-
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://aastha-backend.onrender.com/api/jobs/${id}`);
+      // Remove deleted company from state
+      setCompanies(companies.filter((company) => company._id !== id));
+    } catch (error) {
+      console.error('Error deleting company:', error);
+    }
+  };
 
   // Handle Edit functionality
   const handleEdit = (company) => {
@@ -99,6 +115,7 @@ const handleDelete = async (id) => {
       <table>
         <thead>
           <tr>
+            <th>Select</th>
             <th>Sr No.</th>
             <th>Company</th>
             <th>Email</th>
@@ -110,6 +127,13 @@ const handleDelete = async (id) => {
         <tbody>
           {currentCompanies.map((company, index) => (
             <tr key={company._id}>
+              <td>
+                <input
+                  type="checkbox"
+                  onChange={() => handleCheckboxChange(company._id)}
+                  checked={selectedCompanies.includes(company._id)}
+                />
+              </td>
               <td>{getRowNumber(index)}</td>
               <td>{company.name}</td>
               <td>{company.email}</td>

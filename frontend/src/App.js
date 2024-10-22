@@ -1,18 +1,22 @@
-import React from 'react';
-import Header from './components/Header'; // Import Header
-import CompanyTable from './components/CompanyTable'; // Import CompanyTable
-import './App.css'; // Import your main styles
+import React, { useState } from 'react';
 import AddCompanyForm from './components/AddCompanyForm';
+import CompanyTable from './components/CompanyTable';
+import Header from './components/Header';
 
-const App = () => {
+function App() {
+  const [refreshTable, setRefreshTable] = useState(false);
+
+  const handleCompanyAdded = () => {
+    setRefreshTable(!refreshTable); // Trigger table refresh
+  };
+
   return (
     <div className="App">
-      <Header /> {/* Display the header */}
-      <CompanyTable /> 
-      <AddCompanyForm/>
-      {/* Display the company table */}
+      <Header />
+      <AddCompanyForm onCompanyAdded={handleCompanyAdded} />
+      <CompanyTable refreshTable={refreshTable} />
     </div>
   );
-};
+}
 
 export default App;
