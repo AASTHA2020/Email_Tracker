@@ -1,59 +1,57 @@
 import express from 'express';
-import Job from '../models/Job.js'; // Import the existing Job model
+import nodemailer from 'nodemailer';
+import Job from '../models/Job.js';  // Import the Job model
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
 // Route to get all jobs
 router.get('/', async (req, res) => {
   try {
-    const jobs = await Job.find(); // Fetch all jobs
-    res.json(jobs); // Return the jobs in JSON format
+    const jobs = await Job.find();  // Fetch all jobs from MongoDB
+    res.json(jobs);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching jobs' });
   }
 });
 
-// Route to create a new job
-router.post('/', async (req, res) => {
-  const { name, email, contact, address } = req.body; // Extract data from request body
+// Route to send emails to selected companies
+router.post('/send-mails', async (req, res) => {
+  const { emails } = req.body;  // The array of company emails sent from frontend
 
-  try {
-    const newJob = new Job({ name, email, contact, address }); // Create new Job document
-    await newJob.save(); // Save to MongoDB
-    res.status(201).json(newJob); // Return the created job
-  } catch (error) {
-    res.status(400).json({ message: 'Error creating job' });
+  if (!emails || emails.length === 0) {
+    return res.status(400).json({ message: 'No emails provided' });
   }
-});
-
-// Route to update a job by ID
-router.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const { name, email, contact, address } = req.body; // Extract updated data from request body
 
   try {
-    const updatedJob = await Job.findByIdAndUpdate(id, { name, email, contact, address }, { new: true });
-    if (!updatedJob) {
-      return res.status(404).json({ message: 'Job not found' });
-    }
-    res.json(updatedJob); // Return the updated job
-  } catch (error) {
-    res.status(400).json({ message: 'Error updating job' });
-  }
-});
+    // Configure Nodemailer with Gmail credentials
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
 
-// Route to delete a job by ID
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
+    // Send emails to all selected companies
+    for (let email of emails) {
+      const mailOptions = {
+        from: process.env.EMAIL_USER,  // Sender email from environment variable
+        to: email,  // Recipient company email
+        subject: 'Application for MERN Stack Developer Role',
+        text: 'Hi there,\n\nI am interested in the MERN Stack Developer position. Looking forward to your response.\n\nBest regards,\nYour Name'
+      };
 
-  try {
-    const deletedJob = await Job.findByIdAndDelete(id);
-    if (!deletedJob) {
-      return res.status(404).json({ message: 'Job not found' });
+      // Send email using Nodemailer
+      await transporter.sendMail(mailOptions);
     }
-    res.json({ message: 'Job deleted successfully' });
+
+    res.status(200).json({ message: 'Emails sent successfully!' });
   } catch (error) {
-    res.status(400).json({ message: 'Error deleting job' });
+    console.error('Error sending emails:', error);
+    res.status(500).json({ message: 'Error sending emails', error });
   }
 });
 

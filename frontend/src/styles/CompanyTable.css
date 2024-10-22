@@ -23,3 +23,45 @@
   border-bottom: 1px solid #ddd;
   font-size: 0.95rem;
 }
+/* Mail Dialog */
+.mail-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  width: 400px;
+  height: 200px;
+  text-align: center;
+}
+
+.mail-dialog h2 {
+  margin-bottom: 20px;
+}
+
+.mail-dialog p {
+  margin-bottom: 20px;
+}
+
+.mail-dialog .submit-btn {
+  background-color: #0073b1;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.mail-dialog .cancel-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

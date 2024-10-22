@@ -108,3 +108,22 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+/* Loader */
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0073b1;
+}
+
+/* Status message */
+.mail-status {
+  margin-top: 10px;
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}
