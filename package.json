@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "concurrently": "^7.6.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.22"
   },
   "dependencies": {
     "nodemailer": "^6.9.15"
