@@ -75,7 +75,7 @@ const CompanyTable = ({ refreshTable }) => {
   const handleDelete = async (id) => {
     console.log('Deleting company with id:', id);
     try {
-      await axios.delete(`https://aastha-backend.onrender.com/api/jobs/${id}`);
+      await axios.delete(`https://my-nodejs-backend-pxev.onrender.com/api/jobs/${id}`);
       setCompanies(companies.filter((company) => company._id !== id));
     } catch (error) {
       console.error('Error deleting company:', error);

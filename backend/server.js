@@ -23,8 +23,7 @@ const connectToMongoDB = async () => {
 
   try {
     await mongoose.connect(
-      `mongodb+srv://${username}:${password}@cluster0.3j0ywmp.mongodb.net/myDatabase?retryWrites=true&w=majority`
-    );
+`mongodb+srv://${username}:${password}@cluster0.3j0ywmp.mongodb.net/${dbName}?retryWrites=true&w=majority`    );
     console.log('Connected to MongoDB');
   } catch (error) {
     console.error('MongoDB connection error', error);
