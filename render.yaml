@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     buildCommand: "npm install"
-    startCommand: "npm run dev"
+    startCommand: "npm start"
     rootDir: backend  # If your backend is in the backend folder
     envVars:
       - key: MONGO_USERNAME
