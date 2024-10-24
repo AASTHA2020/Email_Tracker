@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: my-nodejs-backend
+    env: node
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "npm run dev"
+    rootDir: backend  # If your backend is in the backend folder
+    envVars:
+      - key: MONGO_USERNAME
+        sync: false
+      - key: MONGO_PASSWORD
+        sync: false
+      - key: NODE_ENV
+        value: production
+    autoDeploy: true
+    branch: main # Specify the branch Render should use to deploy the service
+    repo: https://github.com/AASTHA2020/Email_Tracker
+
+databases:
+  - name: my-database
+    type: postgres
+    plan: free
