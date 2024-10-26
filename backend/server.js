@@ -1,48 +1,50 @@
-import express from 'express'; 
-import cors from 'cors'; 
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url'; // Import to fix __dirname issue
-import { dirname } from 'path';      // Import to fix __dirname issue
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import JobRoutes from "./routes/JobRoutes.js";
+import SendEmailRoutes from "./routes/SendEmailRoute.js";
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(express.json());
+
 app.use(cors({
-  origin: '*', // Allow all origins (for development purposes)
+    origin: "*",
 }));
-app.use(express.urlencoded({ extended: true }));
 
-// MongoDB Connection
+// Getting environment variables.
+const port = process.env.PORT;
+const mongoURI = process.env.MONGODB_URI;
+
+// Connect to MongoDB.
 const connectToMongoDB = async () => {
-  const username = process.env.MONGO_USERNAME; // Get MongoDB username from .env
-  const password = encodeURIComponent(process.env.MONGO_PASSWORD); // Get MongoDB password from .env
-
-  try {
-    await mongoose.connect(
-`mongodb+srv://${username}:${password}@cluster0.3j0ywmp.mongodb.net/${dbName}?retryWrites=true&w=majority`    );
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.error('MongoDB connection error', error);
-  }
-};
+    try {
+        await mongoose.connect(mongoURI);
+    } catch (error) {
+        console.log("Error connecting to MongoDB:", error);
+    }
+}
 
 connectToMongoDB();
 
-// Fix for __dirname in ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-console.log(__dirname); // This will log the correct directory now
+app.get("/", async (req, res) => {
+    res.json({
+        routes: {
+            "/jobs": "Get all emails who are seeking for jobs.",
+            "/jobs/addMail": "Add a new mail.",
+            "/jobs/deleteMail": "Delete a mail.",
+            "/jobs/updateMail": "Update a mail.",
+            "/sendEmail": "Send emails.",
+        }
+    })
+});
 
-// Importing routes
-import jobRoutes from './routes/JobRoutes.js';
+app.use("/jobs", JobRoutes);
+app.use("/sendEmail", SendEmailRoutes);
 
-// Use routes
-app.use('/api/jobs', jobRoutes); 
-
-// Port setup
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => {
+    console.log("Server is running on port", port);
+});
