@@ -1,82 +1,84 @@
-import React, { useEffect, useState } from 'react'; 
-import axios from 'axios'; 
-import SendEmailDialog from './SendEmailDialog'; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'; 
-import '../styles/CompanyTable.css'; 
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import SendEmailDialog from './SendEmailDialog';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import '../styles/CompanyTable.css';
 
-const CompanyTable = ({ refreshTable }) => { 
-  const [companies, setCompanies] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
-  const [editingCompany, setEditingCompany] = useState(null); 
-  const [currentPage, setCurrentPage] = useState(1); 
-  const [companiesPerPage] = useState(10); 
-  const [selectedEmails, setSelectedEmails] = useState([]); 
-  const [showMailDialog, setShowMailDialog] = useState(false); 
+const CompanyTable = ({ refreshTable, selectedEmails, setSelectedEmails }) => {
+  const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [editingCompany, setEditingCompany] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [companiesPerPage] = useState(10);
+  // Moved the selectedEmails to App.js
+  // const [selectedEmails, setSelectedEmails] = useState([]); 
+  const [showMailDialog, setShowMailDialog] = useState(false);
 
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
         console.log('Fetching companies from backend...');
-        const response = await axios.get('https://aastha-backend.onrender.com/api/jobs');
-        setCompanies(response.data); 
-        console.log('Fetched companies:', response.data); 
-      } catch (error) {
-        console.error('Error fetching companies:', error);
-        setError('Error fetching companies'); 
-      } finally {
-        setLoading(false);
-      }
-    };
+      const response = await axios.get('https://email-tracker-e20m.onrender.com/jobs');
+      setCompanies(response.data);
+      console.log('Fetched companies:', response.data);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+      setError('Error fetching companies');
+    } finally {
+      setLoading(false);
+    }
+  }
 
-    fetchCompanies(); 
-  }, [refreshTable]); 
+  fetchCompanies();
+
+  }, [refreshTable]);
 
   const handleCheckboxChange = (companyEmail) => {
-    console.log('Toggling selection for email:', companyEmail); 
+    console.log('Toggling selection for email:', companyEmail);
 
     setSelectedEmails((prevSelectedEmails) => {
       if (prevSelectedEmails.includes(companyEmail)) {
         console.log('Removing email:', companyEmail);
-        return prevSelectedEmails.filter((email) => email !== companyEmail); 
+        return prevSelectedEmails.filter((email) => email !== companyEmail);
       } else {
-        console.log('Adding email:', companyEmail); 
-        return [...prevSelectedEmails, companyEmail]; 
+        console.log('Adding email:', companyEmail);
+        return [...prevSelectedEmails, companyEmail];
       }
     });
   };
 
   const handleEdit = (company) => {
-    console.log('Editing company:', company); 
-    setEditingCompany(company); 
+    console.log('Editing company:', company);
+    setEditingCompany(company);
   };
 
   const handleUpdate = async (e) => {
-    e.preventDefault(); 
-    console.log('Updating company:', editingCompany); 
+    e.preventDefault();
+    console.log('Updating company:', editingCompany);
 
     try {
-      await axios.put(`https://aastha-backend.onrender.com/api/jobs/${editingCompany._id}`, editingCompany);
+      await axios.post(`https://email-tracker-e20m.onrender.com/jobs/updateMail`, editingCompany);
       setCompanies(companies.map((company) => company._id === editingCompany._id ? editingCompany : company));
-      setEditingCompany(null); 
+      setEditingCompany(null);
     } catch (error) {
-      console.error('Error updating company:', error); 
+      console.error('Error updating company:', error);
     }
   };
 
   const handleEditChange = (e) => {
     setEditingCompany({
       ...editingCompany,
-      [e.target.name]: e.target.value 
+      [e.target.name]: e.target.value
     });
   };
 
-  const handleDelete = async (id) => {
-    console.log('Deleting company with id:', id);
+  const handleDelete = async (email) => {
+    console.log('Deleting company with email:', email);
     try {
-      await axios.delete(`https://my-nodejs-backend-pxev.onrender.com/api/jobs/${id}`);
-      setCompanies(companies.filter((company) => company._id !== id));
+      await axios.post(`https://email-tracker-e20m.onrender.com/jobs/deleteMail`, { email });
+      setCompanies(companies.filter((company) => company.email !== email));
     } catch (error) {
       console.error('Error deleting company:', error);
     }
@@ -125,8 +127,8 @@ const CompanyTable = ({ refreshTable }) => {
               <td>
                 <input
                   type="checkbox"
-                  onChange={() => handleCheckboxChange(company.email)} 
-                  checked={selectedEmails.includes(company.email)} 
+                  onChange={() => handleCheckboxChange(company.email)}
+                  checked={selectedEmails.includes(company.email)}
                 />
               </td>
               <td>{getRowNumber(index)}</td>
@@ -138,7 +140,7 @@ const CompanyTable = ({ refreshTable }) => {
                 <button className="icon-btn edit-btn" onClick={() => handleEdit(company)}>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
-                <button className="icon-btn delete-btn" onClick={() => handleDelete(company._id)}>
+                <button className="icon-btn delete-btn" onClick={() => handleDelete(company.email)}>
                   <FontAwesomeIcon icon={faTrashAlt} />
                 </button>
               </td>

@@ -7,7 +7,7 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import '../styles/SendEmailDialog.css'; 
 
 const SendEmailDialog = ({ selectedEmails, onClose }) => {
-  const [sendingMail, setSendingMail] = useState(false); // For showing a loader while sending emails
+  const [sendingMail, setSendingMail] = useState(false);
 
   // Function triggered when clicking the Send Confirmation button
   const handleSendEmails = async () => {
@@ -29,8 +29,10 @@ const SendEmailDialog = ({ selectedEmails, onClose }) => {
 
     try {
       // Make the request to the backend to send emails
-      const response = await axios.post('https://aastha-backend.onrender.com/api/jobs/send-mails', {
-        emails: selectedEmails, // Pass selected emails to the backend
+      const response = await axios.post('https://email-tracker-e20m.onrender.com/sendEmail', {
+        emails: selectedEmails,
+        subject: "Hii there",
+        emailContent: "This is a test mail"
       });
 
       // Log the response status from the backend
